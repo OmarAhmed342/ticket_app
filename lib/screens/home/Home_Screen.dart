@@ -2,9 +2,12 @@ import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:ticket_app/base/widgets/app_double_text.dart';
 import 'package:ticket_app/base/widgets/ticket_view.dart';
+import 'package:ticket_app/screens/home/widgets/hotel.dart';
 
-import '../base/res/media.dart';
-import '../base/res/styles/app_styles.dart';
+
+import '../../base/res/media.dart';
+import '../../base/res/styles/app_styles.dart';
+import '../../base/utils/all_json.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -14,11 +17,12 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: AppStyles.bgColor,
         body: ListView(
-      children: [
-        const SizedBox(height: 40,),
+         children: [
+          const SizedBox(height: 40,),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,8 +63,35 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 40,),
-              const AppDoubleText(bigText: "Upcoming Flights", smallText: "View all"),
-              TicketView(),
+              AppDoubleText(
+                bigText: "Upcoming Flights",
+                smallText: "View all",
+                func: ()=>Navigator.pushNamed(context,"/all_tickets"),),
+              const SizedBox(height: 20,),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: ticketList.map((singleTicket){
+                      return TicketView(ticket:singleTicket);
+                  }
+                      ).toList() ,
+                  ),
+              ),
+              const SizedBox(height: 40,),
+              AppDoubleText(
+                  bigText: "Hotels",
+                  smallText: "View all",
+                func: ()=>Navigator.pushNamed(context,"/all_hotels"),),
+              const SizedBox(height: 20,),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: hotelList.map((singleHotel){
+                      return Hotel(hotel:singleHotel);
+                    }
+                    ).toList() ,
+                  ),
+              ),
             ],
 
           ),
